@@ -18,21 +18,21 @@
 	    <script>	    
 	    	var capture = document.getElementById("capture");
 	    
-			var file2Base64 = function(fileInput) {
-				if(!fileInput.target.files.length) return;
-				var file = fileInput.target.files[0];
-				var fr = new FileReader();
-				fr.onload=function(evt) {
-					//document.getElementById("base64area").innerHTML = evt.target.result;
-					document.getElementById("img").src = evt.target.result;
-				}
-				fr.readAsDataURL(file);
+		var file2Base64 = function(fileInput) {
+			if(!fileInput.target.files.length) return;
+			var file = fileInput.target.files[0];
+			var fr = new FileReader();
+			fr.onload=function(evt) {
+				//document.getElementById("base64area").innerHTML = evt.target.result;
+				document.getElementById("img").src = evt.target.result;
 			}
-			
-			capture.addEventListener("change",function(e) {
-						console.dir(e);
-						file2Base64(e);
-					});
+			fr.readAsDataURL(file);
+		}
+
+		capture.addEventListener("change",function(e) {
+					console.dir(e);
+					file2Base64(e);
+				});
 		</script>
 	</body>
 </html>
