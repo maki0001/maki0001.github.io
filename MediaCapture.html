@@ -10,9 +10,12 @@
 	        <input type="file" id="capture" name="capture" accept="image/*" capture="camera" />
 	        <input type="submit" value="Upload" />
 	    </form>
+	    <img id="img"></img>
+	    <br/>
+	    <!--
 	    <textarea id="base64area">base64データ</textarea>
-	    <script>
-	    
+		-->
+	    <script>	    
 	    	var capture = document.getElementById("capture");
 	    
 			var file2Base64 = function(fileInput) {
@@ -20,7 +23,8 @@
 				var file = fileInput.target.files[0];
 				var fr = new FileReader();
 				fr.onload=function(evt) {
-					document.getElementById("base64area").innerHTML=evt.target.result;
+					//document.getElementById("base64area").innerHTML = evt.target.result;
+					document.getElementById("img").src = evt.target.result;
 				}
 				fr.readAsDataURL(file);
 			}
