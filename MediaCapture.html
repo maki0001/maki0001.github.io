@@ -1,14 +1,34 @@
 <!DOCTYPE HTML>
 <html lang="ja">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>HTML Media Capture Sample</title>
-</head>
-<body>
-    <h1>HTML Media Capture Sample</h1>
-    <form action="upload.php" method="post" enctype="multipart/form-data">
-        <input type="file" name="capture" accept="image/*" capture="camera" />
-        <input type="submit" value="Upload" />
-    </form>
-</body>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>HTML Media Capture Sample</title>
+	</head>
+	<body>
+	    <h1>HTML Media Capture Sample</h1>
+	    <form action="upload.php" method="post" enctype="multipart/form-data">
+	        <input type="file" id="capture" name="capture" accept="image/*" capture="camera" />
+	        <input type="submit" value="Upload" />
+	    </form>
+	    <textarea id="base64area">base64データ</textarea>
+	    <script>
+	    
+	    	var capture = document.getElementById("capture");
+	    
+			var file2Base64 = function(fileInput) {
+				if(!fileInput.target.files.length) return;
+				var file = fileInput.target.files[0];
+				var fr = new FileReader();
+				fr.onload=function(evt) {
+					document.getElementById("base64area").innerHTML=evt.target.result;
+				}
+				fr.readAsDataURL(file);
+			}
+			
+			capture.addEventListener("change",function(e) {
+						console.dir(e);
+						file2Base64(e);
+					});
+		</script>
+	</body>
 </html>
