@@ -147,6 +147,7 @@
 					const src = URL.createObjectURL(blob);
 					const result = decode(src);
 					if( result != null ){
+						onProcessed(canvas);
 						document.getElementById('result').value = result.codeResult.code;
 					}
 				})
@@ -258,9 +259,9 @@
 				});
 			};
 			
-			Quagga.onProcessed(function(){
-				const ctx = Quagga.canvas.ctx.overlay;
-				const canvas = Quagga.canvas.dom.overlay;
+			onProcessed = function(canvas){
+				const ctx = canvas.ctx.overlay;
+				const canvas = canvas.dom.overlay;
 				if (!data) { return; }
 				// 認識したバーコードを囲む
 				if (data.boxes) {
@@ -278,7 +279,7 @@
 				if (data.codeResult && data.codeResult.code) {
 					Quagga.ImageDebug.drawPath(data.line, { x: 'x', y: 'y' }, ctx, { color: 'red', lineWidth: 3 });
 				}
-			});
+			};
 			
 		</script>
 	</body>
