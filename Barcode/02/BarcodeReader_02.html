@@ -147,7 +147,6 @@
 					const src = URL.createObjectURL(blob);
 					const result = decode(src);
 					if( result != null ){
-						onProcessed(canvas);
 						document.getElementById('result').value = result.codeResult.code;
 					}
 				})
@@ -260,6 +259,7 @@
 				});
 			};
 			
+			/*
 			var onProcessed = function(canvas){
 				const ctx = canvas.ctx.overlay;
 				const canvas = canvas.dom.overlay;
@@ -281,6 +281,7 @@
 					Quagga.ImageDebug.drawPath(data.line, { x: 'x', y: 'y' }, ctx, { color: 'red', lineWidth: 3 });
 				}
 			};
+			*/
 			
 		</script>
 	</body>
