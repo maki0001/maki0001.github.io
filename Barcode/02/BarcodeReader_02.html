@@ -194,7 +194,7 @@
 			};
 			
 			var decode = function(src) {
-				const config = Object.assign({}, this.config, { src: src });
+				const config = Object.assign({}, getConfig(), { src: src });
 				return new Promise((resolve, reject) => {
 				  Quagga.decodeSingle(config, result => {
 				    resolve(result);
