@@ -129,15 +129,20 @@
 				//videoタグの描画をコンテキストに描画
 				ctx.drawImage(video,0,0,canvas.width,canvas.height);
 				//ビデオのデータをBase64に変換
-				var base64 = canvas.toDataURL('image/jpeg');
+				//var base64 = canvas.toDataURL('image/jpeg');
 				//イメージタグに表示
 				//img.src = base64;
 				
-				const src = canvas.toDataURL('image/jpeg');
-				const result = decode(src);
-				console.dir(result);
-				document.getElementById('result').value = result.codeResult.code;
-				
+				//const src = canvas.toDataURL('image/jpeg');
+				var imageUrl;
+				canvas.toBlob(function (blob) {
+					// BlobオブジェクトにアクセスできるURLを生成
+					console.dir(blob);
+					const src = URL.createObjectURL(blob);;
+					const result = decode(src);
+					console.dir(result);
+					document.getElementById('result').value = result.codeResult.code;
+				})
 				stopCamera(video);
 			};
 			
@@ -181,20 +186,23 @@
 								showTransformed: true,
 								showTransformedBox: true,
 								showBB: true
+							}
 						}
 					},
 					// Web Workerの数
 					numOfWorker: navigator.hardwareConcurrency || 4,
 					// 画像内にバーコードの位置を示す（認識したときに枠で囲む）
-					locate: true,
+					locate: false,
 					// ↓ここにイメージソースを設置する
 					src: null
 					}
-				}
-			};
+				};
 			
 			var decode = function(src) {
+				console.log('decode');
+				console.dir(src);
 				const config = Object.assign({}, getConfig(), { src: src });
+				console.dir(config);
 				return new Promise((resolve, reject) => {
 				  Quagga.decodeSingle(config, result => {
 				    resolve(result);
