@@ -11,21 +11,45 @@
 	</head>
 <body>
     <div id="interactive" class="viewport"></div>
+    <button id="startButton"><font size="5">スキャン開始</font></button>
+	<button id="stopButton"><font size="5">スキャン停止</font></button>
     <script src="static/quagga.min.js"></script>
     <script>
-        Quagga.init({
-            inputStream: { type : 'LiveStream' },
-            decoder: {
-                readers: [{
-                    format: 'ean_reader',
-                    config: {}
-                }]
-            }
-        }, (err) => {
-            if(!err) {
-                Quagga.start();
-            }
-        });
+    	var startButton = document.getElementById("startButton");
+		var stopButton = document.getElementById("stopButton");
+		
+		startButton.addEventListener("click",function(e) {
+			Quagga.init({
+	            inputStream: { type : 'LiveStream' },
+	            decoder: {
+	            	readers: [
+						"code_128_reader",
+						"ean_reader",
+						"ean_8_reader",
+						"code_39_reader",
+						"code_39_vin_reader",
+						"codabar_reader",
+						"upc_reader",
+						"upc_e_reader",
+						"i2of5_reader"
+					]
+	            	/*
+	                readers: [{
+	                    format: 'ean_reader',
+	                    config: {}
+	                }]
+	                */
+	            }
+	        }, (err) => {
+	            if(!err) {
+	                Quagga.start();
+	            }
+	        });
+		});
+		
+		stopButton.addEventListener("click",function(e) {
+			Quagga.stop();
+		});
 
         let checking = false;
         Quagga.onDetected((result) => {
@@ -33,6 +57,7 @@
             alert(code);
         });
         
+        /*
 		Quagga.onProcessed((data) => {
 			const ctx = Quagga.canvas.ctx.overlay;
 			const canvas = Quagga.canvas.dom.overlay;
@@ -56,6 +81,7 @@
 				Quagga.ImageDebug.drawPath(data.line, { x: 'x', y: 'y' }, ctx, { color: 'red', lineWidth: 3 });
 			}
 		});
+        */
         
     </script>
 </body>
