@@ -10,9 +10,9 @@
 		<button id="stopButton">カメラ停止</button>
 		<canvas id="canvas"></canvas>
 		<img id="image"></img>
-		<video id="video" autoplay playsinline="true"/>
 		<div id="preview"></div>
 		<div id="result"></div>
+		<video id="video" autoplay playsinline="true"/>
 		
 		<script src="static/quagga.min.js"></script>
 		<script>
@@ -24,9 +24,9 @@
 			canvas.style.display = "none";
 			var video = document.getElementById("video");
 			var img = document.getElementById('image');
-			var medias = { audio:false, video: {facingMode: {exact: "environment"}}};//リアカメラにアクセス
+			//var medias = { audio:false, video: {facingMode: {exact: "environment"}}};//リアカメラにアクセス
 			//var medias = { audio:false, video:{}};
-			//var medias = { audio:false, video:true };
+			var medias = { audio:false, video:true };
 			
 			var changeDisplay = function(state){
 				if("init" == state){
@@ -140,8 +140,10 @@
 					console.dir(blob);
 					const src = URL.createObjectURL(blob);;
 					const result = decode(src);
+					/*
 					console.dir(result);
 					document.getElementById('result').value = result.codeResult.code;
+					*/
 				})
 				stopCamera(video);
 			};
@@ -201,6 +203,7 @@
 			var decode = function(src) {
 				console.log('decode');
 				console.dir(src);
+				/*
 				const config = Object.assign({}, getConfig(), { src: src });
 				console.dir(config);
 				return new Promise((resolve, reject) => {
@@ -208,6 +211,37 @@
 				    resolve(result);
 				  });
 				})
+				*/
+				
+				Quagga.decodeSingle({
+					src: src,
+					numOfWorkers: 0,  // Needs to be 0 when used within node
+					inputStream: {
+						size: 800  // restrict input-size to be 800px in width (long-side)
+					},
+					decoder: {
+						readers: [
+								"code_128_reader",
+								"ean_reader",
+								"ean_8_reader",
+								"code_39_reader",
+								"code_39_vin_reader",
+								"codabar_reader",
+								"upc_reader",
+								"upc_e_reader",
+								"i2of5_reader"
+							]
+					},
+					}, function(result) {
+						console.dir(result);
+						if(result.codeResult) {
+							console.log("result", result.codeResult.code);
+							alert(result.codeResult.code);
+						} else {
+							console.log("not detected");
+							alert("not detected");
+						}
+				});
 			};
 			
 		</script>
