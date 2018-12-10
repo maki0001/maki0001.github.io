@@ -4,21 +4,23 @@
 		<meta charset="UTF-8">
 		<title></title>
 		<style>
-			body>div>button{
+			body>video, body>image, body>div{
 				float: left;
-				padding-left: 10px;
 			}
+			
 		</style>
 	</head>
 	<body>
-		<video width="100%" id="video" autoplay playsinline="true"></video>
-		<canvas width="100%" id="canvas"></canvas>
-		<img width="100%" id="image"></img>
-		<div style="width: 100%; display:inline; vertical-align: middle;">
+		<video width="80%" id="video" autoplay playsinline="true"></video>
+		<canvas width="80%" id="canvas"></canvas>
+		<img width="80%" id="image"></img>
+		<div>
 			<button id="startButton">カメラ起動</button>
+			<br/><br/><br/><br/>
 			<button id="captureButton">スキャン</button>
+			<br/><br/><br/><br/>
 			<button id="stopButton">カメラ停止</button>
-		</div>
+		<div>
 		<div id="preview"></div>
 		<div id="result"></div>
 		
@@ -231,9 +233,8 @@
 					},
 					decoder: {
 						readers: [
-								//"code_128_reader",
+								"code_128_reader",
 								"ean_reader",
-								/*
 								"ean_8_reader",
 								"code_39_reader",
 								"code_39_vin_reader",
@@ -241,7 +242,6 @@
 								"upc_reader",
 								"upc_e_reader",
 								"i2of5_reader"
-								*/
 							]
 					},
 					locate: true,
