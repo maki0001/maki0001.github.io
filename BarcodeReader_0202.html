@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			canvas.drawing, canvas.drawingBuffer {
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+		</style>
+	</head>
+<body>
+    <div id="interactive" class="viewport"></div>
+    <script src="static/quagga.min.js"></script>
+    <script>
+        Quagga.init({
+            inputStream: { type : 'LiveStream' },
+            decoder: {
+                readers: [{
+                    format: 'ean_reader',
+                    config: {}
+                }]
+            }
+        }, (err) => {
+            if(!err) {
+                Quagga.start();
+            }
+        });
+
+        let checking = false;
+        Quagga.onDetected((result) => {
+            var code = result.codeResult.code;
+            alert(code);
+        });
+        
+		Quagga.onProcessed((data) => {
+			const ctx = Quagga.canvas.ctx.overlay;
+			const canvas = Quagga.canvas.dom.overlay;
+
+			if (!data) { return; }
+			// 認識したバーコードを囲む
+			if (data.boxes) {
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+				const hasNotRead = box => box !== data.box;
+				data.boxes.filter(hasNotRead).forEach(box => {
+					Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, ctx, { color: 'green', lineWidth: 2 });
+				});
+			}
+			// 読み取ったバーコードを囲む
+			if (data.box) {
+				Quagga.ImageDebug.drawPath(data.box, { x: 0, y: 1 }, ctx, { color: 'blue', lineWidth: 2 });
+			}
+			// 読み取ったバーコードに線を引く
+			if (data.codeResult && data.codeResult.code) {
+				Quagga.ImageDebug.drawPath(data.line, { x: 'x', y: 'y' }, ctx, { color: 'red', lineWidth: 3 });
+			}
+		});
+        
+    </script>
+</body>
+</html>
