@@ -33,15 +33,13 @@
 					type: "LiveStream",
 					target: document.querySelector('#scanner-container'),
 					constraints: {
-						video: {
-							mandatory: {
-								minWidth: 1280,
-								minHeight: 720
-							},
-							facingMode: {exact: "environment"}
-                                }
-                            }
-					},
+						video: { audio: false, video: {
+									width: 160,
+									height: 90,
+									facingMode: {exact: "environment"}
+							}
+						}
+					}
 				},
 				decoder: {
 					readers: [
